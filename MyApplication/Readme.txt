@@ -1,0 +1,21 @@
+﻿{
+	"models":
+	[
+		{
+			"name":"llama3.2:latest",
+			"model":"llama3.2:latest",
+			"modified_at":"2024-11-02T00:53:41.6827919+03:30",
+			"size":2019393189,
+			"digest":"a80c4f17acd55265feec403c7aef86be0c25983ab279d83f3bcd3abbcb5b8b72",
+			"details":
+			{
+				"parent_model":"",
+				"format":"gguf",
+				"family":"llama",
+				"families":["llama"],
+				"parameter_size":"3.2B",
+				"quantization_level":"Q4_K_M"}
+			}
+		}
+	]
+}
