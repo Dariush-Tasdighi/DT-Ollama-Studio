@@ -12,13 +12,12 @@ public partial class MainForm : Form
 		InitializeComponent();
 	}
 
-	private string BaseAddressEndpoint = "http://127.0.0.1:11434";
 	private List<ChatMessage> ChatMessages { get; set; } = [];
 
 	private void MainForm_Load(object sender, EventArgs e)
 	{
 		Text =
-			"DT Ollama Studio - Version 1.0";
+			"DT Ollama Studio - Version 1.1";
 
 		DisableControls();
 		getModelsButton.Enabled = true;
@@ -26,15 +25,20 @@ public partial class MainForm : Form
 
 	private async void GetModelsButton_Click(object sender, EventArgs e)
 	{
+		if(string.IsNullOrWhiteSpace(value: endpointTextBox.Text))
+		{
+			MessageBox.Show(text: "You did not specify Endpoint!");
+			return;
+		}
+
 		DisableControls();
 
 		var ollamaTagsEndpoint = "/api/tags";
-		var ollamaBaseAddressEndpoint = "http://127.0.0.1:11434";
 
 		var ollamaClient = new HttpClient
 		{
 			BaseAddress =
-				new Uri(ollamaBaseAddressEndpoint),
+				new Uri(uriString: endpointTextBox.Text),
 		};
 
 		var responseMessage =
@@ -75,6 +79,26 @@ public partial class MainForm : Form
 
 	private async void SubmitButton_Click(object sender, EventArgs e)
 	{
+		await SubmitAsync();
+	}
+
+	private async void PromptTextBox_KeyDown(object sender, KeyEventArgs e)
+	{
+		if (e.Control && e.KeyCode == Keys.Enter)
+		{
+			e.Handled = true;
+			await SubmitAsync();
+		}
+	}
+
+	private async Task SubmitAsync()
+	{
+		if (string.IsNullOrWhiteSpace(value: endpointTextBox.Text))
+		{
+			MessageBox.Show(text: "You did not specify Endpoint!");
+			return;
+		}
+
 		var model =
 			modelsComboBox.SelectedItem;
 
@@ -116,11 +140,11 @@ public partial class MainForm : Form
 		// **************************************************
 
 		var ollamaChatEndpoint = "/api/chat";
-		var ollamaBaseAddressEndpoint = "http://127.0.0.1:11434";
 
 		var ollamaClient = new HttpClient
 		{
-			BaseAddress = new Uri(ollamaBaseAddressEndpoint)
+			BaseAddress =
+				new Uri(uriString: endpointTextBox.Text),
 		};
 
 		var chatRequest =
