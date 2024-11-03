@@ -32,10 +32,10 @@
 			modelsComboBox = new ComboBox();
 			promptTextBox = new TextBox();
 			responseTextBox = new TextBox();
-			submitButton = new Button();
+			chatButton = new Button();
 			rememberCheckBox = new CheckBox();
-			endpointTextBox = new TextBox();
-			endpointLabel = new Label();
+			baseAddressTextBox = new TextBox();
+			baseAddressLabel = new Label();
 			SuspendLayout();
 			// 
 			// getModelsButton
@@ -91,21 +91,21 @@
 			responseTextBox.Size = new Size(646, 267);
 			responseTextBox.TabIndex = 5;
 			// 
-			// submitButton
+			// chatButton
 			// 
-			submitButton.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-			submitButton.BackColor = Color.Khaki;
-			submitButton.FlatAppearance.BorderSize = 0;
-			submitButton.FlatStyle = FlatStyle.Flat;
-			submitButton.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-			submitButton.Location = new Point(506, 512);
-			submitButton.Margin = new Padding(4);
-			submitButton.Name = "submitButton";
-			submitButton.Size = new Size(150, 36);
-			submitButton.TabIndex = 7;
-			submitButton.Text = "&Submit";
-			submitButton.UseVisualStyleBackColor = false;
-			submitButton.Click += SubmitButton_Click;
+			chatButton.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+			chatButton.BackColor = Color.Khaki;
+			chatButton.FlatAppearance.BorderSize = 0;
+			chatButton.FlatStyle = FlatStyle.Flat;
+			chatButton.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+			chatButton.Location = new Point(506, 512);
+			chatButton.Margin = new Padding(4);
+			chatButton.Name = "chatButton";
+			chatButton.Size = new Size(150, 36);
+			chatButton.TabIndex = 7;
+			chatButton.Text = "&Chat";
+			chatButton.UseVisualStyleBackColor = false;
+			chatButton.Click += ChatButton_Click;
 			// 
 			// rememberCheckBox
 			// 
@@ -118,24 +118,24 @@
 			rememberCheckBox.Text = "&Remember";
 			rememberCheckBox.UseVisualStyleBackColor = true;
 			// 
-			// endpointTextBox
+			// baseAddressTextBox
 			// 
-			endpointTextBox.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-			endpointTextBox.BorderStyle = BorderStyle.None;
-			endpointTextBox.Location = new Point(170, 12);
-			endpointTextBox.Name = "endpointTextBox";
-			endpointTextBox.Size = new Size(488, 27);
-			endpointTextBox.TabIndex = 1;
-			endpointTextBox.Text = "http://127.0.0.1:11434";
+			baseAddressTextBox.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+			baseAddressTextBox.BorderStyle = BorderStyle.None;
+			baseAddressTextBox.Location = new Point(170, 12);
+			baseAddressTextBox.Name = "baseAddressTextBox";
+			baseAddressTextBox.Size = new Size(488, 27);
+			baseAddressTextBox.TabIndex = 1;
+			baseAddressTextBox.Text = "http://127.0.0.1:11434";
 			// 
-			// endpointLabel
+			// baseAddressLabel
 			// 
-			endpointLabel.AutoSize = true;
-			endpointLabel.Location = new Point(12, 11);
-			endpointLabel.Name = "endpointLabel";
-			endpointLabel.Size = new Size(92, 28);
-			endpointLabel.TabIndex = 0;
-			endpointLabel.Text = "&Endpoint";
+			baseAddressLabel.AutoSize = true;
+			baseAddressLabel.Location = new Point(12, 11);
+			baseAddressLabel.Name = "baseAddressLabel";
+			baseAddressLabel.Size = new Size(126, 28);
+			baseAddressLabel.TabIndex = 0;
+			baseAddressLabel.Text = "&Base Address";
 			// 
 			// MainForm
 			// 
@@ -143,10 +143,10 @@
 			AutoScaleMode = AutoScaleMode.Font;
 			BackColor = Color.SteelBlue;
 			ClientSize = new Size(670, 561);
-			Controls.Add(endpointLabel);
-			Controls.Add(endpointTextBox);
+			Controls.Add(baseAddressLabel);
+			Controls.Add(baseAddressTextBox);
 			Controls.Add(rememberCheckBox);
-			Controls.Add(submitButton);
+			Controls.Add(chatButton);
 			Controls.Add(responseTextBox);
 			Controls.Add(promptTextBox);
 			Controls.Add(modelsComboBox);
@@ -166,9 +166,9 @@
 		private ComboBox modelsComboBox;
 		private TextBox promptTextBox;
 		private TextBox responseTextBox;
-		private Button submitButton;
+		private Button chatButton;
 		private CheckBox rememberCheckBox;
-		private TextBox endpointTextBox;
-		private Label endpointLabel;
+		private TextBox baseAddressTextBox;
+		private Label baseAddressLabel;
 	}
 }

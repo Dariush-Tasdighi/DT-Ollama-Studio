@@ -1,7 +1,4 @@
-﻿using System.Net;
-using System.Text;
-using System.Text.Json;
-using MyApplication.Models;
+﻿using Dtat.Ollama;
 
 namespace MyApplication;
 
@@ -12,99 +9,71 @@ public partial class MainForm : Form
 		InitializeComponent();
 	}
 
-	private List<ChatMessage> ChatMessages { get; set; } = [];
+	private OllamaHelper? MyOllamaHelper { get; set; }
 
 	private void MainForm_Load(object sender, EventArgs e)
 	{
-		Text =
-			"DT Ollama Studio - Version 1.1";
+		Text = "DT Ollama Studio - Version 2.0";
 
 		DisableControls();
+
 		getModelsButton.Enabled = true;
+		baseAddressTextBox.Enabled = true;
 	}
 
 	private async void GetModelsButton_Click(object sender, EventArgs e)
 	{
-		if(string.IsNullOrWhiteSpace(value: endpointTextBox.Text))
+		if (string.IsNullOrWhiteSpace(value: baseAddressTextBox.Text))
 		{
-			MessageBox.Show(text: "You did not specify Endpoint!");
+			MessageBox.Show(text: "You did not specify base address!");
 			return;
 		}
 
 		DisableControls();
 
-		var ollamaTagsEndpoint = "/api/tags";
+		// همیشه باید در این حالت ایجاد شود
+		MyOllamaHelper =
+			new OllamaHelper(baseAddress: baseAddressTextBox.Text);
 
-		var ollamaClient = new HttpClient
-		{
-			BaseAddress =
-				new Uri(uriString: endpointTextBox.Text),
-		};
-
-		var responseMessage =
+		var models =
 			await
-			ollamaClient.GetAsync(requestUri: ollamaTagsEndpoint);
+			MyOllamaHelper.GetModelsAsync();
 
-		var responseContent =
-			await
-			responseMessage.Content.ReadAsStringAsync();
-
-		if (responseMessage.StatusCode == HttpStatusCode.OK &&
-			string.IsNullOrWhiteSpace(value: responseContent) == false)
-		{
-			var modelResponse =
-				JsonSerializer.Deserialize<ModelResponse>(json: responseContent);
-
-			if (modelResponse is not null &&
-				modelResponse.Models is not null &&
-				modelResponse.Models.Count > 0)
-			{
-				for (var index = 0; index <= modelResponse.Models.Count - 1; index++)
-				{
-					var model =
-						modelResponse.Models[index];
-
-					if (string.IsNullOrWhiteSpace(value: model.Name) == false)
-					{
-						modelsComboBox.Items.Add(item: model.Name);
-					}
-				}
-			}
-		}
+		modelsComboBox.DataSource = models;
 
 		EnableControls();
-
 		modelsComboBox.Focus();
 	}
 
-	private async void SubmitButton_Click(object sender, EventArgs e)
+	private async void ChatButton_Click(object sender, EventArgs e)
 	{
-		await SubmitAsync();
+		await ChatAsync();
 	}
 
 	private async void PromptTextBox_KeyDown(object sender, KeyEventArgs e)
 	{
+		// CTRL + ENTER
 		if (e.Control && e.KeyCode == Keys.Enter)
 		{
 			e.Handled = true;
-			await SubmitAsync();
+			await ChatAsync();
 		}
 	}
 
-	private async Task SubmitAsync()
+	private async Task ChatAsync()
 	{
-		if (string.IsNullOrWhiteSpace(value: endpointTextBox.Text))
+		if (string.IsNullOrWhiteSpace(value: baseAddressTextBox.Text))
 		{
-			MessageBox.Show(text: "You did not specify Endpoint!");
+			MessageBox.Show(text: "You did not specify base address!");
 			return;
 		}
 
-		var model =
+		var modelName =
 			modelsComboBox.SelectedItem;
 
-		if (model is null)
+		if (modelName is null)
 		{
-			MessageBox.Show(text: "You did not select model!");
+			MessageBox.Show(text: "You did not specify model!");
 			modelsComboBox.Focus();
 			return;
 		}
@@ -114,109 +83,40 @@ public partial class MainForm : Form
 
 		if (string.IsNullOrWhiteSpace(value: userPrompt))
 		{
-			MessageBox.Show(text: "You did not write any prompt!");
+			MessageBox.Show(text: "You did specify prompt!");
 			promptTextBox.Focus();
 			return;
 		}
 
-		userPrompt = userPrompt.Trim();
-
 		DisableControls();
 
-		// **************************************************
-		if (rememberCheckBox.Checked == false)
-		{
-			ChatMessages.Clear();
-		}
+		userPrompt =
+			userPrompt.Trim();
 
-		var chatMessage =
-			new ChatMessage
-			{
-				Role = "user",
-				Content = userPrompt,
-			};
-
-		ChatMessages.Add(item: chatMessage);
-		// **************************************************
-
-		var ollamaChatEndpoint = "/api/chat";
-
-		var ollamaClient = new HttpClient
-		{
-			BaseAddress =
-				new Uri(uriString: endpointTextBox.Text),
-		};
-
-		var chatRequest =
-			new ChatRequest
-			{
-				Stream = false,
-				Model = model.ToString(),
-				Messages = ChatMessages,
-			};
-
-		var chatRequestJson =
-			JsonSerializer.Serialize(value: chatRequest);
-
-		var content = new StringContent(content: chatRequestJson,
-			encoding: Encoding.UTF8, mediaType: "application/json");
-
-		var responseMessage =
+		responseTextBox.Text =
 			await
-			ollamaClient.PostAsync
-			(requestUri: ollamaChatEndpoint, content: content);
-
-		var responseContent =
-			await
-			responseMessage.Content.ReadAsStringAsync();
-
-		if (responseMessage.StatusCode == HttpStatusCode.OK &&
-			string.IsNullOrWhiteSpace(value: responseContent) == false)
-		{
-			var modelResponse =
-				JsonSerializer.Deserialize<ChatResponse>(json: responseContent);
-
-			if (modelResponse is not null)
-			{
-				var message =
-					modelResponse.Message;
-
-				if (message is not null)
-				{
-					responseTextBox.Text = message.Content;
-
-					// **************************************************
-					chatMessage =
-						new ChatMessage
-						{
-							Role = "assistant",
-							Content = message.Content,
-						};
-
-					ChatMessages.Add(item: chatMessage);
-					// **************************************************
-				}
-			}
-		}
+			MyOllamaHelper!.ChatAsync(modelName: modelName.ToString()!,
+			userPrompt: userPrompt, remember: rememberCheckBox.Checked);
 
 		EnableControls();
-
 		promptTextBox.Focus();
 	}
 
 	private void DisableControls()
 	{
-		submitButton.Enabled = false;
+		chatButton.Enabled = false;
 		promptTextBox.Enabled = false;
 		modelsComboBox.Enabled = false;
 		getModelsButton.Enabled = false;
+		baseAddressTextBox.Enabled = false;
 	}
 
 	private void EnableControls()
 	{
-		submitButton.Enabled = true;
+		chatButton.Enabled = true;
 		promptTextBox.Enabled = true;
 		modelsComboBox.Enabled = true;
 		getModelsButton.Enabled = true;
+		baseAddressTextBox.Enabled = true;
 	}
 }

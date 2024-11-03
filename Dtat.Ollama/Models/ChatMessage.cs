@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace MyApplication.Models;
+namespace Dtat.Ollama.Models;
 
 public class ChatMessage : object
 {

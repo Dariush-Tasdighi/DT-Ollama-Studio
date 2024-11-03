@@ -1,7 +1,7 @@
 using System.Net;
 using System.Text;
 using System.Text.Json;
-using MyApplication.Models;
+using Dtat.Ollama.Models;
 
 namespace MyApplication;
 
