@@ -26,7 +26,7 @@ public class OllamaHelper : object
 		var result =
 			new List<string>();
 
-		var ollamaClient = new HttpClient
+		var client = new HttpClient
 		{
 			BaseAddress =
 				new Uri(uriString: BaseAddress),
@@ -34,7 +34,7 @@ public class OllamaHelper : object
 
 		var responseMessage =
 			await
-			ollamaClient.GetAsync(requestUri: TagsEndpoint);
+			client.GetAsync(requestUri: TagsEndpoint);
 
 		var responseContent =
 			await
@@ -66,12 +66,13 @@ public class OllamaHelper : object
 		return result;
 	}
 
-	public async Task<string?> ChatAsync(string modelName, string userPrompt, bool remember)
+	public async Task<string?> ChatAsync
+		(string modelName, string userPrompt, bool rememberHistory)
 	{
 		string? result = null;
 
 		// **************************************************
-		if (remember == false)
+		if (rememberHistory == false)
 		{
 			ChatMessages.Clear();
 		}
@@ -86,7 +87,7 @@ public class OllamaHelper : object
 		ChatMessages.Add(item: chatMessage);
 		// **************************************************
 
-		var ollamaClient = new HttpClient
+		var client = new HttpClient
 		{
 			BaseAddress =
 				new Uri(uriString: BaseAddress),
@@ -108,7 +109,7 @@ public class OllamaHelper : object
 
 		var responseMessage =
 			await
-			ollamaClient.PostAsync
+			client.PostAsync
 			(requestUri: ChatEndpoint, content: content);
 
 		var responseContent =

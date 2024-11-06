@@ -96,7 +96,7 @@ public partial class MainForm : Form
 		responseTextBox.Text =
 			await
 			MyOllamaHelper!.ChatAsync(modelName: modelName.ToString()!,
-			userPrompt: userPrompt, remember: rememberCheckBox.Checked);
+			userPrompt: userPrompt, rememberHistory: rememberHistoryCheckBox.Checked);
 
 		EnableControls();
 		promptTextBox.Focus();

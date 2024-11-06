@@ -1,9 +1,9 @@
 namespace MyApplication;
 
-internal static class Program
+internal static class Program : object
 {
 	[STAThread]
-	static void Main()
+	private static void Main()
 	{
 		ApplicationConfiguration.Initialize();
 

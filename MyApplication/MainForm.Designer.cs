@@ -33,7 +33,7 @@
 			promptTextBox = new TextBox();
 			responseTextBox = new TextBox();
 			chatButton = new Button();
-			rememberCheckBox = new CheckBox();
+			rememberHistoryCheckBox = new CheckBox();
 			baseAddressTextBox = new TextBox();
 			baseAddressLabel = new Label();
 			SuspendLayout();
@@ -44,10 +44,10 @@
 			getModelsButton.FlatAppearance.BorderSize = 0;
 			getModelsButton.FlatStyle = FlatStyle.Flat;
 			getModelsButton.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-			getModelsButton.Location = new Point(12, 46);
+			getModelsButton.Location = new Point(13, 46);
 			getModelsButton.Margin = new Padding(4);
 			getModelsButton.Name = "getModelsButton";
-			getModelsButton.Size = new Size(150, 36);
+			getModelsButton.Size = new Size(164, 36);
 			getModelsButton.TabIndex = 2;
 			getModelsButton.Text = "&Get Models";
 			getModelsButton.UseVisualStyleBackColor = false;
@@ -59,22 +59,22 @@
 			modelsComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
 			modelsComboBox.FlatStyle = FlatStyle.Flat;
 			modelsComboBox.FormattingEnabled = true;
-			modelsComboBox.Location = new Point(170, 46);
+			modelsComboBox.Location = new Point(185, 46);
 			modelsComboBox.Margin = new Padding(4);
 			modelsComboBox.Name = "modelsComboBox";
-			modelsComboBox.Size = new Size(488, 36);
+			modelsComboBox.Size = new Size(375, 36);
 			modelsComboBox.TabIndex = 3;
 			// 
 			// promptTextBox
 			// 
 			promptTextBox.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
 			promptTextBox.BorderStyle = BorderStyle.None;
-			promptTextBox.Location = new Point(12, 90);
+			promptTextBox.Location = new Point(13, 90);
 			promptTextBox.Margin = new Padding(4);
 			promptTextBox.Multiline = true;
 			promptTextBox.Name = "promptTextBox";
 			promptTextBox.ScrollBars = ScrollBars.Vertical;
-			promptTextBox.Size = new Size(646, 139);
+			promptTextBox.Size = new Size(547, 139);
 			promptTextBox.TabIndex = 4;
 			promptTextBox.KeyDown += PromptTextBox_KeyDown;
 			// 
@@ -88,7 +88,7 @@
 			responseTextBox.Name = "responseTextBox";
 			responseTextBox.ReadOnly = true;
 			responseTextBox.ScrollBars = ScrollBars.Vertical;
-			responseTextBox.Size = new Size(646, 267);
+			responseTextBox.Size = new Size(548, 159);
 			responseTextBox.TabIndex = 5;
 			// 
 			// chatButton
@@ -98,61 +98,62 @@
 			chatButton.FlatAppearance.BorderSize = 0;
 			chatButton.FlatStyle = FlatStyle.Flat;
 			chatButton.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-			chatButton.Location = new Point(506, 512);
+			chatButton.Location = new Point(396, 404);
 			chatButton.Margin = new Padding(4);
 			chatButton.Name = "chatButton";
-			chatButton.Size = new Size(150, 36);
+			chatButton.Size = new Size(164, 36);
 			chatButton.TabIndex = 7;
 			chatButton.Text = "&Chat";
 			chatButton.UseVisualStyleBackColor = false;
 			chatButton.Click += ChatButton_Click;
 			// 
-			// rememberCheckBox
+			// rememberHistoryCheckBox
 			// 
-			rememberCheckBox.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
-			rememberCheckBox.AutoSize = true;
-			rememberCheckBox.Location = new Point(16, 517);
-			rememberCheckBox.Name = "rememberCheckBox";
-			rememberCheckBox.Size = new Size(128, 32);
-			rememberCheckBox.TabIndex = 6;
-			rememberCheckBox.Text = "&Remember";
-			rememberCheckBox.UseVisualStyleBackColor = true;
+			rememberHistoryCheckBox.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+			rememberHistoryCheckBox.AutoSize = true;
+			rememberHistoryCheckBox.Location = new Point(12, 407);
+			rememberHistoryCheckBox.Name = "rememberHistoryCheckBox";
+			rememberHistoryCheckBox.Size = new Size(212, 32);
+			rememberHistoryCheckBox.TabIndex = 6;
+			rememberHistoryCheckBox.Text = "&Remember History";
+			rememberHistoryCheckBox.UseVisualStyleBackColor = true;
 			// 
 			// baseAddressTextBox
 			// 
 			baseAddressTextBox.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
 			baseAddressTextBox.BorderStyle = BorderStyle.None;
-			baseAddressTextBox.Location = new Point(170, 12);
+			baseAddressTextBox.Location = new Point(185, 12);
 			baseAddressTextBox.Name = "baseAddressTextBox";
-			baseAddressTextBox.Size = new Size(488, 27);
+			baseAddressTextBox.Size = new Size(375, 27);
 			baseAddressTextBox.TabIndex = 1;
 			baseAddressTextBox.Text = "http://127.0.0.1:11434";
 			// 
 			// baseAddressLabel
 			// 
 			baseAddressLabel.AutoSize = true;
-			baseAddressLabel.Location = new Point(12, 11);
+			baseAddressLabel.Location = new Point(13, 12);
 			baseAddressLabel.Name = "baseAddressLabel";
-			baseAddressLabel.Size = new Size(126, 28);
+			baseAddressLabel.Size = new Size(137, 28);
 			baseAddressLabel.TabIndex = 0;
 			baseAddressLabel.Text = "&Base Address";
 			// 
 			// MainForm
 			// 
-			AutoScaleDimensions = new SizeF(11F, 28F);
+			AutoScaleDimensions = new SizeF(12F, 28F);
 			AutoScaleMode = AutoScaleMode.Font;
 			BackColor = Color.SteelBlue;
-			ClientSize = new Size(670, 561);
+			ClientSize = new Size(572, 453);
 			Controls.Add(baseAddressLabel);
 			Controls.Add(baseAddressTextBox);
-			Controls.Add(rememberCheckBox);
+			Controls.Add(rememberHistoryCheckBox);
 			Controls.Add(chatButton);
 			Controls.Add(responseTextBox);
 			Controls.Add(promptTextBox);
 			Controls.Add(modelsComboBox);
 			Controls.Add(getModelsButton);
-			Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+			Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
 			Margin = new Padding(4);
+			MinimumSize = new Size(590, 500);
 			Name = "MainForm";
 			StartPosition = FormStartPosition.CenterScreen;
 			Load += MainForm_Load;
@@ -167,7 +168,7 @@
 		private TextBox promptTextBox;
 		private TextBox responseTextBox;
 		private Button chatButton;
-		private CheckBox rememberCheckBox;
+		private CheckBox rememberHistoryCheckBox;
 		private TextBox baseAddressTextBox;
 		private Label baseAddressLabel;
 	}
